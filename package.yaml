@@ -28,23 +28,50 @@ library:
   source-dirs: src
 
 executables:
-  advent-of-code-exe:
+  day1:
     main:                Main.hs
-    source-dirs:         app
+    source-dirs:         app/Day1
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
     - advent-of-code
-
-tests:
-  advent-of-code-test:
-    main:                Spec.hs
-    source-dirs:         test
+  day2:
+    main:                Main.hs
+    source-dirs:         app/Day2
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
     - advent-of-code
+  day3:
+    main:                Main.hs
+    source-dirs:         app/Day3
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - advent-of-code
+  day4:
+    main:                Main.hs
+    source-dirs:         app/Day4
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - advent-of-code
+#tests:
+#  advent-of-code-test:
+#    main:                Spec.hs
+#    source-dirs:         test
+#    ghc-options:
+#    - -threaded
+#    - -rtsopts
+#    - -with-rtsopts=-N
+#    dependencies:
+#    - advent-of-code
+#
