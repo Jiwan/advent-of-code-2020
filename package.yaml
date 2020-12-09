@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - split
 - containers
+- parsec
 
 library:
   source-dirs: src
@@ -77,6 +78,16 @@ executables:
   day6:
     main:                Main.hs
     source-dirs:         app/Day6
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    dependencies:
+    - advent-of-code
+  day7:
+    main:                Main.hs
+    source-dirs:         app/Day7
     ghc-options:
     - -threaded
     - -rtsopts
