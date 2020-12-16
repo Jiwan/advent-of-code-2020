@@ -61,6 +61,5 @@ main = do
     let firstTrace = traceUntilFirstDuplicated instructions (0,0)
     print firstTrace 
     putStrLn "Part 2"
-    print $ length instructions
     let buggyOps = filter (\(ip, _) -> fst (instructions !! ip) `elem` ["jmp", "nop"]) firstTrace
     print $ last $ List.maximumBy (comparing last) $ List.map (traceFrom instructions) buggyOps
