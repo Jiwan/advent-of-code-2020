@@ -12,6 +12,13 @@ parseData file =
     in
         (departTime, buses)
 
+greaterCommonDivisor :: Integer -> Integer -> Integer
+greaterCommonDivisor a 0 = a
+greaterCommonDivisor a b = greaterCommonDivisor b (a `mod` b)
+
+leastCommonMultiple :: Integer -> Integer -> Integer
+leastCommonMultiple a b = a * b `div` greaterCommonDivisor a b
+
 main :: IO ()
 main = do
     file <- readFile "data/test13.txt"
@@ -21,3 +28,5 @@ main = do
     let (bus, time) = minimumBy (comparing snd) $ map (\x -> let m = departTime `mod` x in (x, (x - m))) buses
     print $ bus * time
     putStrLn "Part 2"
+    print $ buses
+    print $ leastCommonMultiple 9 6 
