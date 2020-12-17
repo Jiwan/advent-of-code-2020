@@ -31,7 +31,6 @@ findSubRange number l =
     let firstRange = take 2 l in 
     go (drop 2 l) firstRange (sum firstRange) 
     where 
-        go :: [Int] -> [Int] -> Int -> [Int]
         go remainingList currentList currentSum
             | currentSum == number = currentList
             | currentSum < number = let (s:xs) = remainingList in go xs (currentList ++ [s]) (currentSum + s) 
@@ -40,11 +39,11 @@ findSubRange number l =
 main :: IO ()
 main = do
     file <- readFile "data/test9.txt"
-    let d = parseInput file
+    let list = parseInput file
     putStrLn "Day 9"
     putStrLn "Part 1"
-    let wrongNumber = fmap last $ find (\s -> isNothing $ findMatchingPair (take 25 s) (last s)) $ window 26 d
+    let wrongNumber = fmap last $ find (\s -> isNothing $ findMatchingPair (take 25 s) (last s)) $ window 26 list
     print wrongNumber
     putStrLn "Part 2"
-    let subRange = findSubRange (fromJust wrongNumber) d
+    let subRange = findSubRange (fromJust wrongNumber) list
     print $ maximum subRange + minimum subRange

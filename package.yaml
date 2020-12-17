@@ -116,6 +116,16 @@ executables:
     - -Wall
     dependencies:
     - advent-of-code
+  day10:
+    main:                Main.hs
+    source-dirs:         app/Day10
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    dependencies:
+    - advent-of-code
 
 #tests:
 #  advent-of-code-test:
