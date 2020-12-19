@@ -49,8 +49,6 @@ resolveFields checkedFields =
                 (name, index) : resolveFields newFields 
         Nothing -> []
 
-
-
 main :: IO ()
 main = do
     file <- readFile "data/test16.txt"
