@@ -40,6 +40,7 @@ count x = length . filter (==x)
 
 update n newElement xs = take n xs ++ [newElement] ++ drop (n + 1) xs
 
+resolveFields :: [([Bool], String)] -> [(String, Int)]
 resolveFields checkedFields =
     case find ((==1) . count True . fst) checkedFields of
         Just (checks, name) -> let
@@ -61,8 +62,8 @@ main = do
     putStrLn "Part 2"
     let validTickets = filter (\x -> length x == amountFields) $ map (filter rules) (ownTicket:otherTickets)
     let checkColumn rule index = all (==True) $ map (\ticket -> rule $ ticket !!index) validTickets
-    let checkFieldAgainstData firstRange secondRange = let rule = buildRule firstRange secondRange in map (\index -> (checkColumn (rule) index)) [0..(amountFields -1)]
-    let checkedFields = map (\(name, firstRange, secondRange) -> (checkFieldAgainstData firstRange secondRange, name)) fields
+    let checkFieldAgainstColumns firstRange secondRange = let rule = buildRule firstRange secondRange in map (\index -> (checkColumn (rule) index)) [0..(amountFields -1)]
+    let checkedFields = map (\(name, firstRange, secondRange) -> (checkFieldAgainstColumns firstRange secondRange, name)) fields
     let fieldsMap = Map.fromList $ resolveFields checkedFields  
     let interestingFields = filter (isPrefixOf "departure" . fst) $ Map.assocs fieldsMap
     print $ product $ map (\(_, index) -> ownTicket !! index) interestingFields 
