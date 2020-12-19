@@ -18,7 +18,6 @@ parseField = do
     maxSecondRange <- Parsec.many1 Parsec.digit
     return (field, (read minFirstRange, read maxFirstRange), (read minSecondRange, read maxSecondRange))
 
-
 readInt :: String -> Int
 readInt = read
 
@@ -64,6 +63,6 @@ main = do
     let checkColumn rule index = all (==True) $ map (\ticket -> rule $ ticket !!index) validTickets
     let checkFieldAgainstColumns firstRange secondRange = let rule = buildRule firstRange secondRange in map (\index -> (checkColumn (rule) index)) [0..(amountFields -1)]
     let checkedFields = map (\(name, firstRange, secondRange) -> (checkFieldAgainstColumns firstRange secondRange, name)) fields
-    let fieldsMap = Map.fromList $ resolveFields checkedFields  
-    let interestingFields = filter (isPrefixOf "departure" . fst) $ Map.assocs fieldsMap
+    let resolvedFields = resolveFields checkedFields  
+    let interestingFields = filter (isPrefixOf "departure" . fst) resolvedFields 
     print $ product $ map (\(_, index) -> ownTicket !! index) interestingFields 
