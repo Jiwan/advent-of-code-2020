@@ -36,3 +36,11 @@
 2020-12-21 11:27:47.153181871000 [12026(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
 2020-12-21 11:30:30.041523217000 [12182(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
 2020-12-21 11:31:04.050868546000 [12312(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 13:12:48.676674142000 [12455(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 13:46:39.955595245000 [21676(ThreadId 13)] ERROR APP - already at the beginning of the history
+2020-12-21 13:46:46.888577763000 [21676(ThreadId 13)] ERROR APP - already at the beginning of the history
+2020-12-21 13:46:48.344568283000 [21676(ThreadId 13)] ERROR APP - already at the beginning of the history
+2020-12-21 13:46:53.513280152000 [21676(ThreadId 13)] ERROR APP - already at the beginning of the history
+2020-12-21 13:47:13.896868373000 [21676(ThreadId 13)] ERROR APP - already at the beginning of the history
+2020-12-21 13:47:19.720151652000 [21676(ThreadId 13)] ERROR APP - already at the beginning of the history
+2020-12-21 13:47:23.692771950000 [21676(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
