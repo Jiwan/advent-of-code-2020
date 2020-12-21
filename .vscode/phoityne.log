@@ -1,0 +1,38 @@
+2020-12-20 22:44:27.350536931000 [143664(ThreadId 13)] ERROR APP - start debugging failed. user error (ExecResult not found.) : Left "user error (ExecResult not found.)"
+2020-12-20 22:45:38.454978323000 [143664(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-20 22:45:41.985651881000 [143756(ThreadId 13)] ERROR APP - start debugging failed. user error (ExecResult not found.) : Left "user error (ExecResult not found.)"
+2020-12-20 22:45:58.086911926000 [143756(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-20 22:46:00.418363048000 [143821(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-20 22:49:00.436387159000 [143890(ThreadId 12)] WARNING REQUEST - unsupported request command. {"command":"stepOut","arguments":{"threadId":0},"type":"request","seq":61}
+2020-12-20 22:49:02.604186451000 [143890(ThreadId 12)] WARNING REQUEST - unsupported request command. {"command":"stepOut","arguments":{"threadId":0},"type":"request","seq":62}
+2020-12-20 22:49:08.562940110000 [143890(ThreadId 12)] WARNING REQUEST - unsupported request command. {"command":"stepOut","arguments":{"threadId":0},"type":"request","seq":63}
+2020-12-20 22:49:09.445757335000 [143890(ThreadId 12)] WARNING REQUEST - unsupported request command. {"command":"stepOut","arguments":{"threadId":0},"type":"request","seq":64}
+2020-12-20 22:49:19.752573044000 [143890(ThreadId 12)] WARNING REQUEST - unsupported request command. {"command":"stepOut","arguments":{"threadId":0},"type":"request","seq":65}
+2020-12-20 22:49:20.496013085000 [143890(ThreadId 12)] WARNING REQUEST - unsupported request command. {"command":"stepOut","arguments":{"threadId":0},"type":"request","seq":66}
+2020-12-20 22:50:47.312485782000 [143890(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-20 22:52:28.512996038000 [144223(ThreadId 13)] ERROR APP - user error (no stacktrace found.)
+2020-12-20 22:52:36.928314273000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:52:37.857047597000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:52:38.537758608000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:52:39.190366733000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:52:39.848646116000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:52:40.471687164000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:52:41.106681509000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:52:41.692493681000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:52:42.372748100000 [144223(ThreadId 13)] ERROR APP - user error (ExecResult not found.)
+2020-12-20 22:53:06.089765891000 [144223(ThreadId 13)] ERROR APP - user error (no stacktrace found.)
+2020-12-20 22:53:19.731861936000 [144223(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-20 22:53:36.347871234000 [144369(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-20 22:55:22.949628867000 [144444(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 10:52:06.881888596000 [6627(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:01:08.048302848000 [6708(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:06:55.653304599000 [9103(ThreadId 12)] WARNING REQUEST - unsupported request command. {"command":"stepOut","arguments":{"threadId":0},"type":"request","seq":20}
+2020-12-21 11:07:05.474337506000 [9103(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:08:06.787146462000 [9199(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:13:21.823802625000 [9912(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:14:37.139828412000 [9990(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:19:50.092174115000 [10076(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:27:17.614611126000 [11943(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:27:47.153181871000 [12026(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:30:30.041523217000 [12182(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
+2020-12-21 11:31:04.050868546000 [12312(ThreadId 16)] CRITICAL THREAD_MGR - Critical exit started.
