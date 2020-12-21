@@ -216,6 +216,16 @@ executables:
     - -Wall
     dependencies:
     - advent-of-code
+  day20:
+    main:                Main.hs
+    source-dirs:         app/Day20
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    dependencies:
+    - advent-of-code
 
 
 
