@@ -5,6 +5,7 @@ import Data.Word (Word16)
 import Data.Bits (Bits(setBit, testBit))
 import Data.Foldable (find)
 import Data.Maybe
+import Data.List (groupBy)
 
 data Piece = Piece Word16 Word16 Word16 Word16 deriving (Show)
 
@@ -44,19 +45,25 @@ parsePiece line =
         (pieceNumber, Piece up right bottom left)
 
 match (Piece up1 right1 bottom1 left1) (Piece up2 right2 bottom2 left2) = 
-    let
-        cornerPieces1 = zip [up1, right1, bottom1, left1] cornerNames
-        cornerPieces2 = zip [up2, right2, bottom2, left2] cornerNames
+        let 
+            testedCorners = zip cornerNames $ map (uncurry (==)) $ zip [up1, right1, bottom1, left1] [bottom2, left2, up2, right2] 
+        in
+            map fst $ filter ((==True) . snd) testedCorners 
+
+
+matchInAllDirections piece1 piece2 = 
+    let matches = map (\f -> let rotatedPiece2 = f piece2 in (match piece1 rotatedPiece2, f)) allPossibleRotationFunc in
+        filter (\(m, _) -> not $ null m) matches
+
+matchAllPieces pieces = 
+    let 
+        allMatches = [(pieceId1, (pieceId2, matchInAllDirections shape1 shape2)) | (pieceId1, shape1) <- pieces, (pieceId2, shape2) <- pieces, pieceId1 /= pieceId2]
+        nonEmptyMatches = filter (\(_, ( _, matches)) -> not $ null matches) allMatches
+        groupedMatches = groupBy (\x y -> fst x == fst y) nonEmptyMatches
     in
-        map (\(side1, sideName1) -> (sideName1, map snd $ filter ((==side1) . fst) cornerPieces2)) cornerPieces1
-
--- matchInAllDirections piece1 piece2 = 
---         map (\f -> let rotatedPiece2 = f piece2 in (name, matchOneCorner side1 rotatedPiece2, f)) allPossibleRotationFunc
-
+        map (\(s:xs) -> (fst s, map snd (s:xs))) groupedMatches
 
 parsePuzzle = map parsePiece . splitOn [""] . lines 
-
-
 
 
 main :: IO ()
@@ -65,5 +72,7 @@ main = do
     putStrLn "Day 20"
     putStrLn "Part 1"
     let puzzle = parsePuzzle file
-    print $ puzzle
-    print $ match (snd (puzzle !! 0)) (snd (puzzle !! 0))
+    let allMatches = matchAllPieces puzzle 
+    let corners = filter ((==2) . length . snd) allMatches
+    print corners
+    print $ product $ map fst corners 
