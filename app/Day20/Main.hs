@@ -89,10 +89,7 @@ matchPieceWithOthers pieces (Piece pieceId borders _) =
 
 matchAllPieces :: Map.Map Int Piece -> [(Int, [(Int, [([BorderName], RotateFuncs)])])]
 matchAllPieces pieces = 
-    let 
-        allMatches = [(pieceId piece, matchPieceWithOthers pieces piece) | piece <- Map.elems pieces]
-    in
-        allMatches
+    [(pieceId piece, matchPieceWithOthers pieces piece) | piece <- Map.elems pieces]
 
 findPieceMatching :: Map.Map Int Piece -> Piece -> BorderName -> [(Int, [RotateFuncs])]
 findPieceMatching pieces piece border = 
