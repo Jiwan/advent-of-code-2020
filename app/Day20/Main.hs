@@ -7,6 +7,7 @@ import Data.Foldable (find)
 import Data.Maybe
 import Data.List (transpose, groupBy)
 import qualified Data.Map as Map
+import Debug.Trace (trace)
 
 data BorderName = UpBorder | RightBorder | BottomBorder | LeftBorder deriving (Show, Eq)
 
@@ -91,29 +92,30 @@ matchAllPieces :: Map.Map Int Piece -> [(Int, [(Int, [([BorderName], RotateFuncs
 matchAllPieces pieces = 
     [(pieceId piece, matchPieceWithOthers pieces piece) | piece <- Map.elems pieces]
 
-findPieceMatching :: Map.Map Int Piece -> Piece -> BorderName -> [(Int, [RotateFuncs])]
+findPieceMatching :: Map.Map Int Piece -> Piece -> BorderName -> Maybe Piece 
 findPieceMatching pieces piece border = 
     let
         matchingPieces = matchPieceWithOthers pieces piece 
         matchingBorders = map (\(id, matches) -> (id, filter (\(borders, _) -> border `elem` borders) matches)) matchingPieces
-        filtered = filter (not . null . snd) matchingBorders
+        filtered = map (\(id, borders) -> (id, map snd borders)) $ filter (not . null . snd) matchingBorders
     in 
-       map (\(id, borders) -> (id, map snd borders)) filtered 
-
-constructFirstRow :: Map.Map Int Piece -> [Piece] -> ([Piece], Map.Map Int Piece)
-constructFirstRow pieces row =
-    let
-        rightMostPiece = last row 
-        matchingPieces = findPieceMatching pieces rightMostPiece RightBorder
-    in
-        case matchingPieces of
-            [] -> (row, pieces) 
-            [(pieceId, [rotateFuncs])] ->
+        case filtered of
+            [] -> Nothing 
+            [(pieceId, [rotateFuncs])] -> 
                 let
                     Just (Piece id borders shape) = Map.lookup pieceId pieces
                     newPiece = Piece id (rotateBorders rotateFuncs borders) (rotateContent rotateFuncs shape)
                 in
-                constructFirstRow (Map.delete id pieces) (row ++ [newPiece])
+                    Just newPiece 
+                
+constructFirstRow :: Map.Map Int Piece -> [Piece] -> ([Piece], Map.Map Int Piece)
+constructFirstRow pieces row =
+    let
+        rightMostPiece = last row 
+    in
+        case findPieceMatching pieces rightMostPiece RightBorder of
+            Just piece -> constructFirstRow (Map.delete (pieceId piece) pieces) (row ++ [piece])
+            _ -> (row, pieces) 
 
 constructRowsBellow :: Map.Map Int Piece -> [[Piece]] -> [[Piece]]
 constructRowsBellow pieces rows 
@@ -121,33 +123,44 @@ constructRowsBellow pieces rows
     | otherwise =
         let
             lastRow = last rows
-            newRow = map (\piece -> findPieceMatching pieces piece) lastRow
+            newRow = mapMaybe (\piece -> findPieceMatching pieces piece BottomBorder) lastRow
+            remainingPieces = foldl (\acc k -> Map.delete (pieceId k) acc) pieces newRow
         in
-            newRow
+           constructRowsBellow remainingPieces $ rows ++ [newRow]
 
 
 drawPuzzle :: [[Piece]] -> [String]
 drawPuzzle = concatMap (map concat . transpose . map shape)
 
-printPuzzle :: [[Piece]] -> IO ()
-printPuzzle =
-    mapM_ (mapM_ (print . shape)) 
+seaMonster = [
+    "                  # ", 
+    "#    ##    ##    ###", 
+    " #  #  #  #  #  #   "]
+
+highlightSeaMonsters :: [String] -> [String] -> [String]
+highlightSeaMonsters puzzle monster =
+    let
+       monsterWidth = length $ head monster
+       monsterHeight = length monster
+       puzzleHeight = length $ head puzzle
+       puzzleWidth = length puzzle
+    in
+        puzzle
+
 
 main :: IO ()
 main = do
-    file <- readFile "data/test20-set2.txt"
+    file <- readFile "data/test20.txt"
     putStrLn "Day 20"
     putStrLn "Part 1"
     let pieces = Map.fromList $ parsePuzzle file
-    print pieces 
     let allMatches = matchAllPieces pieces 
-    print allMatches
     let corners = filter ((==2) . length . snd) allMatches
     print $ product $ map fst corners 
     putStrLn "Part 2"
     let upperLeftBorderMatch = [RightBorder, BottomBorder]
-    let Just upperLeftCornerId = find (\(_, [(_, [([s1], _)]), (_, [([s2], _)])]) -> s1 `elem` upperLeftBorderMatch && s2 `elem` upperLeftBorderMatch) corners 
-    let Just upperLeftCorner = Map.lookup (fst upperLeftCornerId) pieces
-    print upperLeftCorner
-    let (firstRow, remainingPieces) = constructFirstRow pieces [upperLeftCorner] 
-    print $ drawPuzzle [firstRow]
+    let Just (upperLeftCornerId, _) = find (\(_, [(_, [([s1], _)]), (_, [([s2], _)])]) -> s1 `elem` upperLeftBorderMatch && s2 `elem` upperLeftBorderMatch) corners 
+    let Just upperLeftCorner = Map.lookup upperLeftCornerId pieces
+    let (firstRow, remainingPieces) = constructFirstRow (Map.delete upperLeftCornerId pieces) [upperLeftCorner] 
+    let solvedPuzzle = drawPuzzle $ constructRowsBellow remainingPieces [firstRow]
+    mapM_ print solvedPuzzle
