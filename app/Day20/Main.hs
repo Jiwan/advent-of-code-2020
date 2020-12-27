@@ -7,7 +7,6 @@ import Data.Foldable (find)
 import Data.Maybe
 import Data.List (transpose, groupBy)
 import qualified Data.Map as Map
-import Debug.Trace (trace)
 
 data BorderName = UpBorder | RightBorder | BottomBorder | LeftBorder deriving (Show, Eq)
 
@@ -37,7 +36,7 @@ flipContentV = reverse
 
 flipContentH = map reverse
 
-rotateContentRight = map reverse . reverse . transpose
+rotateContentRight = transpose . reverse
 
 data RotateFuncs = RotateFuncs { rotateBorders :: PieceBorders -> PieceBorders, rotateContent :: [String] -> [String]} deriving (Show)
 allPossibleRotationFunc :: [RotateFuncs]
@@ -129,24 +128,40 @@ constructRowsBellow pieces rows
            constructRowsBellow remainingPieces $ rows ++ [newRow]
 
 
-drawPuzzle :: [[Piece]] -> [String]
-drawPuzzle = concatMap (map concat . transpose . map shape)
+renderPuzzle :: [[Piece]] -> [String]
+renderPuzzle = concatMap (map concat . transpose . map shape)
 
 seaMonster = [
     "                  # ", 
     "#    ##    ##    ###", 
     " #  #  #  #  #  #   "]
 
-highlightSeaMonsters :: [String] -> [String] -> [String]
-highlightSeaMonsters puzzle monster =
+findMonster :: [String] -> [String] -> [(Int, Int)]
+findMonster puzzle monster =
     let
        monsterWidth = length $ head monster
        monsterHeight = length monster
-       puzzleHeight = length $ head puzzle
-       puzzleWidth = length puzzle
+       puzzleWidth = length $ head puzzle
+       puzzleHeight = length puzzle
+       points = [(x, y) | y <- [0..(puzzleHeight - monsterHeight - 1)], x <- [0..(puzzleWidth - monsterWidth - 1)]]
+       slice (x, y) = map (take monsterWidth . drop x) (take monsterHeight (drop y puzzle))
+       compare (c1, c2) = (c2 == ' ') || (c1 == c2) 
+       testPointFunc point = all (==True) $ zipWith (curry compare) (concat $ slice point) (concat monster) 
     in
-        puzzle
+        map snd $ filter ((==True) . fst) $ map (\p -> (testPointFunc p, p)) points
 
+update :: Int -> a -> [a] -> [a]
+update n newElement xs = take n xs ++ [newElement] ++ drop (n + 1) xs
+
+highlightMonster :: [String] -> [(Int, Int)] -> [String] -> [String]
+highlightMonster puzzle points monster = 
+    foldr updateAtPoint puzzle points
+    where
+        monsterWidth = length $ head monster
+        monsterHeight = length monster
+        updatePuzzle (x, y) p = let updatedRow = update x 'O' (p !! y) in update y updatedRow p
+        monsterDots (monsterPosX, monsterPosY) = [(x + monsterPosX, y + monsterPosY) |  x <- [0..(monsterWidth - 1)], y <- [0..(monsterHeight - 1)], ((monster !! y) !! x) == '#']
+        updateAtPoint point p = foldr updatePuzzle p (monsterDots point)
 
 main :: IO ()
 main = do
@@ -162,5 +177,9 @@ main = do
     let Just (upperLeftCornerId, _) = find (\(_, [(_, [([s1], _)]), (_, [([s2], _)])]) -> s1 `elem` upperLeftBorderMatch && s2 `elem` upperLeftBorderMatch) corners 
     let Just upperLeftCorner = Map.lookup upperLeftCornerId pieces
     let (firstRow, remainingPieces) = constructFirstRow (Map.delete upperLeftCornerId pieces) [upperLeftCorner] 
-    let solvedPuzzle = drawPuzzle $ constructRowsBellow remainingPieces [firstRow]
-    mapM_ print solvedPuzzle
+    let solvedPuzzle = renderPuzzle $ constructRowsBellow remainingPieces [firstRow]
+    let rotatedPuzzlesAndMonsters = map (\(RotateFuncs _ f) -> let rotatedPuzzle = f solvedPuzzle in (findMonster rotatedPuzzle seaMonster, rotatedPuzzle)) allPossibleRotationFunc
+    let Just (monsterLocs, rotatedPuzzle) = find (not . null . fst) rotatedPuzzlesAndMonsters 
+    let puzzleWithHighlightedMonster = highlightMonster rotatedPuzzle monsterLocs seaMonster
+    mapM_ print $ puzzleWithHighlightedMonster
+    print $ length . filter (=='#') $ concat puzzleWithHighlightedMonster 
