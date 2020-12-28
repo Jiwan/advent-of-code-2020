@@ -101,7 +101,3 @@ main = do
     print $ sum $ map (evaluate . fst . parseExprV1 . lexify) $ lines file
     putStrLn "Part 2"
     print $ sum $ map (evaluate . fst . parseExprV2 . lexify) $ lines file
-
-
-
-

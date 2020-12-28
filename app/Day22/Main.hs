@@ -19,9 +19,7 @@ createAllergenMap :: [([String], [String])] -> Map.Map String (Set.Set String)
 createAllergenMap = foldr addIngredientsForAllergens Map.empty
     where
         addIngredientsForAllergens (ingredients, allergens) map = foldr (addIngredientForAllergen ingredients) map allergens
-        addIngredientForAllergen ingredients allergen map = 
-            let ingredientsList = (Set.fromList ingredients) in 
-                Map.insert allergen (Set.intersection ingredientsList (Map.findWithDefault ingredientsList allergen map)) map
+        addIngredientForAllergen ingredients allergen map = Map.insert allergen (Set.intersection (Set.fromList ingredients) (Map.findWithDefault (Set.fromList ingredients) allergen map)) map
 
 figureOutAllergens :: Map.Map String (Set.Set String) -> [(String, String)]
 figureOutAllergens m 
