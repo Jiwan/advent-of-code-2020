@@ -248,7 +248,7 @@ executables:
     - advent-of-code
   day23:
     main:                Main.hs
-    source-dirs:         app/Day22
+    source-dirs:         app/Day23
     ghc-options:
     - -threaded
     - -rtsopts
