@@ -63,5 +63,6 @@ main = do
     putStrLn "Part 1"
     let tiles = parseTiles file
     let blackTiles = computeBlackTiles tiles
-    print $ length $ blackTiles 
+    print $ length blackTiles 
+    putStrLn "Part 2"
     print $ length $ playWorld blackTiles 100 

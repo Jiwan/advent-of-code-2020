@@ -268,6 +268,17 @@ executables:
     - -O2
     dependencies:
     - advent-of-code
+  day25:
+    main:                Main.hs
+    source-dirs:         app/Day25
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -O2
+    dependencies:
+    - advent-of-code
 
 #tests:
 #  advent-of-code-test:
