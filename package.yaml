@@ -254,6 +254,7 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     - -Wall
+    - -O2
     dependencies:
     - advent-of-code
 
