@@ -39,6 +39,3 @@ main = do
     let m2 = createMap inputPartTwo
     let newMap2 = moveV2 m2 (head inputPartTwo) 10000000
     print $ product $ take 2 $ drop 1 $ map fst $ takeFromMap newMap2 1 3
-
-
-
